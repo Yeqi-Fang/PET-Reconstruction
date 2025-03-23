@@ -15,7 +15,7 @@
         "train": {
             "name": "FFHQ",
             "mode": "HR", // whether need LR img
-            "dataroot": "C:\\Users\\Administrator\\Desktop\\deblur\\dataset\\train_mat",
+            "dataroot": "D:\\Datasets\\dataset\\train_mat",
             "datatype": "lmdb", //lmdb or img, path of img files
             "l_resolution": 64, // low resolution need to super_resolution
             "r_resolution": 64, // high resolution
@@ -27,7 +27,7 @@
         "val": {
             "name": "CelebaHQ",
             "mode": "LRHR",
-            "dataroot": "E:\\code\\test_mat",
+            "dataroot": "D:\\Datasets\\dataset\\test_mat",
             "datatype": "lmdb", //lmdb or img, path of img files
             "l_resolution": 64,
             "r_resolution": 64,
@@ -41,17 +41,15 @@
             "PreNet": {
                 "in_channel": 1,
                 "out_channel": 1,
-                "inner_channel": 64,
+                "inner_channel": 32,
                 "channel_multiplier": [
                     1,
                     2,
-                    3,
-                    4
+                    2,
+                    2
                 ],
-                "attn_res": [
-
-                ],
-                "res_blocks": 3,
+                "attn_res": [],
+                "res_blocks": 2,
                 "dropout": 0
             },
             "DenoiseNet": {
@@ -61,16 +59,13 @@
                 "channel_multiplier": [
                     1,
                     2,
-                    3,
-                    4
+                    2,
+                    2
                 ],
-                "attn_res": [
-
-                ],
-                "res_blocks": 3,
+                "attn_res": [],
+                "res_blocks": 2,
                 "dropout": 0
             }
-
         },
         "beta_schedule": { // use munual beta_schedule for acceleration
             "train": {

@@ -1,0 +1,8 @@
+*.pth
+core/__pycache__/
+
+data/__pycache__/
+
+*.log
+
+*.pyc
