@@ -1,0 +1,169 @@
+25-04-08 12:18:41.220 - INFO:   name: sr_ffhq
+  phase: train
+  gpu_ids: [0]
+  path:[
+    log: experiments\sr_ffhq_250408_121841\logs
+    tb_logger: experiments\sr_ffhq_250408_121841\tb_logger
+    results: experiments\sr_ffhq_250408_121841\results
+    checkpoint: experiments\sr_ffhq_250408_121841\checkpoint
+    resume_state: checkpoint/I500000_E93
+    experiments_root: experiments\sr_ffhq_250408_121841
+  ]
+  datasets:[
+    train:[
+      name: FFHQ
+      mode: HR
+      dataroot: C:\texlive\train\train
+      datatype: lmdb
+      l_resolution: 64
+      r_resolution: 64
+      batch_size: 1
+      num_workers: 0
+      use_shuffle: True
+      data_len: -1
+    ]
+    val:[
+      name: CelebaHQ
+      mode: LRHR
+      dataroot: C:\texlive\test\test
+      datatype: lmdb
+      l_resolution: 64
+      r_resolution: 64
+      data_len: 3
+    ]
+  ]
+  model:[
+    which_model_G: sr3
+    finetune_norm: False
+    unet:[
+      PreNet:[
+        in_channel: 1
+        out_channel: 1
+        inner_channel: 64
+        channel_multiplier: [1, 2, 3, 4]
+        attn_res: []
+        res_blocks: 3
+        dropout: 0
+      ]
+      DenoiseNet:[
+        in_channel: 2
+        out_channel: 1
+        inner_channel: 32
+        channel_multiplier: [1, 2, 3, 4]
+        attn_res: []
+        res_blocks: 3
+        dropout: 0
+      ]
+    ]
+    beta_schedule:[
+      train:[
+        schedule: linear
+        n_timestep: 2000
+        linear_start: 1e-06
+        linear_end: 0.01
+      ]
+      val:[
+        schedule: linear
+        n_timestep: 10
+        linear_start: 1e-06
+        linear_end: 0.5
+      ]
+    ]
+    diffusion:[
+      image_size: 128
+      channels: 1
+      conditional: True
+    ]
+  ]
+  train:[
+    n_iter: 600000
+    val_freq: 10000.0
+    save_checkpoint_freq: 20000.0
+    print_freq: 200
+    optimizer:[
+      type: adam
+      lr: 0.0001
+    ]
+    ema_scheduler:[
+      step_start_ema: 5000
+      update_ema_every: 1
+      ema_decay: 0.9999
+    ]
+  ]
+  wandb:[
+    project: sr_ffhq
+  ]
+  distributed: False
+  log_wandb_ckpt: False
+  log_eval: False
+  enable_wandb: False
+
+25-04-08 12:18:41.506 - INFO: Dataset [LRHRDataset - FFHQ] is created.
+25-04-08 12:18:41.519 - INFO: Dataset [LRHRDataset - CelebaHQ] is created.
+25-04-08 12:18:41.519 - INFO: Initial Dataset Finished
+25-04-08 12:18:41.691 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.385 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.680 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.698 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.716 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.734 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.751 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.770 - INFO: Initialization method [orthogonal]
+25-04-08 12:18:43.780 - INFO: Loading pretrained model for PreNet [checkpoint/I500000_E93_PreNet_gen.pth] ...
+25-04-08 12:18:44.008 - INFO: Loading pretrained model for DenoiseNet [checkpoint/I500000_E93_DenoiseNet_gen.pth] ...
+25-04-08 12:18:44.147 - INFO: Loading pretrained model for guide_3D_1 [checkpoint/I500000_E93_guide_3D_1_gen.pth] ...
+25-04-08 12:18:44.160 - INFO: Loading pretrained model for guide_3D_2 [checkpoint/I500000_E93_guide_3D_2_gen.pth] ...
+25-04-08 12:18:44.172 - INFO: Loading pretrained model for guide_3D_3 [checkpoint/I500000_E93_guide_3D_3_gen.pth] ...
+25-04-08 12:18:44.184 - INFO: Loading pretrained model for guide_spectrum_1 [checkpoint/I500000_E93_guide_spectrum_1_gen.pth] ...
+25-04-08 12:18:44.195 - INFO: Loading pretrained model for guide_spectrum_2 [checkpoint/I500000_E93_guide_spectrum_2_gen.pth] ...
+25-04-08 12:18:44.206 - INFO: Loading pretrained model for guide_spectrum_3 [checkpoint/I500000_E93_guide_spectrum_3_gen.pth] ...
+25-04-08 12:18:44.219 - INFO: Model [DDPM] is created.
+25-04-08 12:18:44.219 - INFO: Initial Model Finished
+25-04-08 12:18:44.219 - INFO: Resuming training from epoch: 93, iter: 500000.
+25-04-08 12:22:32.422 - INFO: <epoch: 94, iter: 500,200> l_total: 2.6707e-02 guide_loss: 2.0030e-04 
+25-04-08 12:26:19.088 - INFO: <epoch: 94, iter: 500,400> l_total: 3.0801e-03 guide_loss: 1.3072e-04 
+25-04-08 12:30:03.911 - INFO: <epoch: 94, iter: 500,600> l_total: 3.6287e-02 guide_loss: 1.3018e-04 
+25-04-08 12:33:48.754 - INFO: <epoch: 94, iter: 500,800> l_total: 2.0592e-02 guide_loss: 1.6259e-03 
+25-04-08 12:37:35.844 - INFO: <epoch: 94, iter: 501,000> l_total: 2.2442e-03 guide_loss: 1.0381e-04 
+25-04-08 12:41:18.086 - INFO: <epoch: 94, iter: 501,200> l_total: 7.3313e-03 guide_loss: 3.9173e-04 
+25-04-08 12:44:58.379 - INFO: <epoch: 94, iter: 501,400> l_total: 1.2496e-02 guide_loss: 1.2086e-04 
+25-04-08 12:48:38.253 - INFO: <epoch: 94, iter: 501,600> l_total: 1.3700e-02 guide_loss: 2.3059e-04 
+25-04-08 12:52:15.676 - INFO: <epoch: 94, iter: 501,800> l_total: 3.5496e-03 guide_loss: 1.1138e-04 
+25-04-08 12:55:55.647 - INFO: <epoch: 94, iter: 502,000> l_total: 4.3535e-03 guide_loss: 1.9387e-04 
+25-04-08 12:59:33.262 - INFO: <epoch: 94, iter: 502,200> l_total: 3.9475e-03 guide_loss: 6.2667e-04 
+25-04-08 13:03:11.841 - INFO: <epoch: 94, iter: 502,400> l_total: 6.0865e-03 guide_loss: 1.5892e-04 
+25-04-08 13:06:49.410 - INFO: <epoch: 94, iter: 502,600> l_total: 8.1920e-03 guide_loss: 6.1420e-04 
+25-04-08 13:10:26.082 - INFO: <epoch: 94, iter: 502,800> l_total: 8.0329e-03 guide_loss: 1.4710e-04 
+25-04-08 13:14:02.431 - INFO: <epoch: 94, iter: 503,000> l_total: 1.2097e-02 guide_loss: 3.8542e-04 
+25-04-08 13:17:39.660 - INFO: <epoch: 94, iter: 503,200> l_total: 1.2305e-02 guide_loss: 1.2196e-04 
+25-04-08 13:21:23.085 - INFO: <epoch: 94, iter: 503,400> l_total: 4.4193e-03 guide_loss: 1.9327e-04 
+25-04-08 13:25:06.518 - INFO: <epoch: 94, iter: 503,600> l_total: 6.0159e-03 guide_loss: 9.5893e-05 
+25-04-08 13:28:44.264 - INFO: <epoch: 94, iter: 503,800> l_total: 5.2233e-02 guide_loss: 1.8419e-04 
+25-04-08 13:32:29.407 - INFO: <epoch: 94, iter: 504,000> l_total: 3.8142e-02 guide_loss: 1.7024e-03 
+25-04-08 13:36:12.066 - INFO: <epoch: 94, iter: 504,200> l_total: 1.2038e-02 guide_loss: 9.2716e-05 
+25-04-08 13:39:54.709 - INFO: <epoch: 94, iter: 504,400> l_total: 1.5063e-02 guide_loss: 3.4314e-04 
+25-04-08 13:43:41.386 - INFO: <epoch: 94, iter: 504,600> l_total: 1.3233e-02 guide_loss: 1.2979e-04 
+25-04-08 13:47:22.118 - INFO: <epoch: 94, iter: 504,800> l_total: 1.5162e-02 guide_loss: 1.4248e-04 
+25-04-08 13:51:01.109 - INFO: <epoch: 94, iter: 505,000> l_total: 3.7402e-03 guide_loss: 9.4826e-05 
+25-04-08 13:54:42.297 - INFO: <epoch: 94, iter: 505,200> l_total: 2.0464e-02 guide_loss: 2.4224e-04 
+25-04-08 13:58:21.842 - INFO: <epoch: 94, iter: 505,400> l_total: 3.5668e-03 guide_loss: 7.2500e-04 
+25-04-08 14:02:05.802 - INFO: <epoch: 94, iter: 505,600> l_total: 9.8463e-03 guide_loss: 2.5180e-04 
+25-04-08 14:05:48.776 - INFO: <epoch: 94, iter: 505,800> l_total: 7.7071e-03 guide_loss: 8.5721e-04 
+25-04-08 14:09:31.754 - INFO: <epoch: 94, iter: 506,000> l_total: 5.4132e-03 guide_loss: 1.3287e-04 
+25-04-08 14:13:14.002 - INFO: <epoch: 94, iter: 506,200> l_total: 6.8876e-03 guide_loss: 3.6604e-04 
+25-04-08 14:16:51.323 - INFO: <epoch: 94, iter: 506,400> l_total: 1.5511e-03 guide_loss: 1.3806e-04 
+25-04-08 14:20:30.922 - INFO: <epoch: 94, iter: 506,600> l_total: 7.3315e-02 guide_loss: 1.6961e-04 
+25-04-08 14:24:18.281 - INFO: <epoch: 94, iter: 506,800> l_total: 5.4373e-03 guide_loss: 1.0952e-04 
+25-04-08 14:28:02.879 - INFO: <epoch: 94, iter: 507,000> l_total: 3.9457e-03 guide_loss: 2.5508e-04 
+25-04-08 14:31:46.903 - INFO: <epoch: 94, iter: 507,200> l_total: 7.9345e-03 guide_loss: 1.7382e-03 
+25-04-08 14:35:28.442 - INFO: <epoch: 94, iter: 507,400> l_total: 2.5089e-03 guide_loss: 1.2213e-04 
+25-04-08 14:39:10.651 - INFO: <epoch: 94, iter: 507,600> l_total: 2.9696e-03 guide_loss: 3.0539e-04 
+25-04-08 14:42:54.808 - INFO: <epoch: 94, iter: 507,800> l_total: 2.4670e-03 guide_loss: 1.4610e-04 
+25-04-08 14:46:35.676 - INFO: <epoch: 94, iter: 508,000> l_total: 3.2352e-02 guide_loss: 2.0751e-04 
+25-04-08 14:50:15.789 - INFO: <epoch: 94, iter: 508,200> l_total: 8.1292e-03 guide_loss: 9.6077e-05 
+25-04-08 14:54:00.675 - INFO: <epoch: 94, iter: 508,400> l_total: 2.5017e-03 guide_loss: 1.1529e-04 
+25-04-08 14:57:42.695 - INFO: <epoch: 94, iter: 508,600> l_total: 3.9747e-03 guide_loss: 6.4592e-04 
+25-04-08 15:01:23.616 - INFO: <epoch: 94, iter: 508,800> l_total: 7.5333e-03 guide_loss: 3.3152e-04 
+25-04-08 15:05:00.545 - INFO: <epoch: 94, iter: 509,000> l_total: 6.5027e-03 guide_loss: 3.5485e-04 
+25-04-08 15:08:45.476 - INFO: <epoch: 94, iter: 509,200> l_total: 1.8510e-03 guide_loss: 1.4659e-04 
+25-04-08 15:12:32.739 - INFO: <epoch: 94, iter: 509,400> l_total: 6.1892e-03 guide_loss: 3.4662e-04 

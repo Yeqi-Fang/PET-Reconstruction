@@ -117,7 +117,7 @@ def make_psd(img):
     fft = np.fft.fft2(img_numpy)
     fshift = np.fft.fftshift(fft)
     fshift += epsilon
-    magnitude_spectrum = 20 * np.log(np.abs(fshift))
+    magnitude_spectrum = 20 * np.log(np.abs(fshift) + 1e-8)
     if (magnitude_spectrum.max() - magnitude_spectrum.min())!= 0:
         magnitude_spectrum = (magnitude_spectrum - magnitude_spectrum.min()) / (magnitude_spectrum.max() - magnitude_spectrum.min())
         magnitude_spectrum = magnitude_spectrum[np.newaxis, :].astype(np.float32)

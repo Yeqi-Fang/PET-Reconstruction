@@ -10,6 +10,9 @@ from tensorboardX import SummaryWriter
 import os
 import numpy as np
 
+torch.autograd.set_detect_anomaly(True)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', type=str, default='config/sr_sr3_16_128.json',
@@ -85,7 +88,7 @@ if __name__ == "__main__":
                 if current_step > n_iter:
                     break
                 for i in train_data:
-                    train_data[i] = (train_data[i] - train_data[i].min()) / (train_data[i].max() - train_data[i].min())
+                    train_data[i] = (train_data[i] - train_data[i].min()) / (train_data[i].max() - train_data[i].min() + 1e-8)
                 diffusion.feed_data(train_data)
                 diffusion.optimize_parameters()
                 # log

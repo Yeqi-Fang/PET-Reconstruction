@@ -1,0 +1,113 @@
+25-04-08 11:40:59.751 - INFO:   name: sr_ffhq
+  phase: train
+  gpu_ids: [0]
+  path:[
+    log: experiments\sr_ffhq_250408_114059\logs
+    tb_logger: experiments\sr_ffhq_250408_114059\tb_logger
+    results: experiments\sr_ffhq_250408_114059\results
+    checkpoint: experiments\sr_ffhq_250408_114059\checkpoint
+    resume_state: None
+    experiments_root: experiments\sr_ffhq_250408_114059
+  ]
+  datasets:[
+    train:[
+      name: FFHQ
+      mode: HR
+      dataroot: C:\texlive\train_mat\train_mat
+      datatype: lmdb
+      l_resolution: 64
+      r_resolution: 64
+      batch_size: 4
+      num_workers: 0
+      use_shuffle: True
+      data_len: -1
+    ]
+    val:[
+      name: CelebaHQ
+      mode: LRHR
+      dataroot: C:\texlive\test_mat\test_mat
+      datatype: lmdb
+      l_resolution: 64
+      r_resolution: 64
+      data_len: 3
+    ]
+  ]
+  model:[
+    which_model_G: sr3
+    finetune_norm: False
+    unet:[
+      PreNet:[
+        in_channel: 1
+        out_channel: 1
+        inner_channel: 64
+        channel_multiplier: [1, 2, 3, 4]
+        attn_res: []
+        res_blocks: 3
+        dropout: 0
+      ]
+      DenoiseNet:[
+        in_channel: 2
+        out_channel: 1
+        inner_channel: 32
+        channel_multiplier: [1, 2, 3, 4]
+        attn_res: []
+        res_blocks: 3
+        dropout: 0
+      ]
+    ]
+    beta_schedule:[
+      train:[
+        schedule: linear
+        n_timestep: 2000
+        linear_start: 1e-06
+        linear_end: 0.01
+      ]
+      val:[
+        schedule: linear
+        n_timestep: 10
+        linear_start: 1e-06
+        linear_end: 0.5
+      ]
+    ]
+    diffusion:[
+      image_size: 128
+      channels: 1
+      conditional: True
+    ]
+  ]
+  train:[
+    n_iter: 500000
+    val_freq: 10000.0
+    save_checkpoint_freq: 20000.0
+    print_freq: 200
+    optimizer:[
+      type: adam
+      lr: 0.0001
+    ]
+    ema_scheduler:[
+      step_start_ema: 5000
+      update_ema_every: 1
+      ema_decay: 0.9999
+    ]
+  ]
+  wandb:[
+    project: sr_ffhq
+  ]
+  distributed: False
+  log_wandb_ckpt: False
+  log_eval: False
+  enable_wandb: False
+
+25-04-08 11:41:00.029 - INFO: Dataset [LRHRDataset - FFHQ] is created.
+25-04-08 11:41:00.042 - INFO: Dataset [LRHRDataset - CelebaHQ] is created.
+25-04-08 11:41:00.042 - INFO: Initial Dataset Finished
+25-04-08 11:41:00.134 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:01.782 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.057 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.064 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.071 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.077 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.084 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.092 - INFO: Initialization method [orthogonal]
+25-04-08 11:41:02.100 - INFO: Model [DDPM] is created.
+25-04-08 11:41:02.100 - INFO: Initial Model Finished
